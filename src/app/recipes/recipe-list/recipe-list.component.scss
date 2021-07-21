@@ -1,0 +1,9 @@
+.card-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+
+  app-recipe-card {
+    margin: 1em;
+  }
+}

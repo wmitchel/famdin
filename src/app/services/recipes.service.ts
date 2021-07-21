@@ -5,9 +5,13 @@ import { Recipe } from '../models';
 
 @Injectable()
 export class RecipesService {
+  recipeCache: Recipe[] | null = null;
   constructor() {}
 
-  getAllRecipes(): Observable<Recipe[]> {
-    return of(Recipes as Recipe[]);
+  getAllRecipes(): Recipe[] {
+    if (!this.recipeCache) {
+      this.recipeCache = Object.values(Recipes) as Recipe[];
+    }
+    return this.recipeCache;
   }
 }
