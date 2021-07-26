@@ -5,6 +5,8 @@ import {
   Validators,
   FormControl,
 } from '@angular/forms';
+import { Recipe } from 'src/app/models';
+import { RecipesProvider } from 'src/app/services/recipes.provider';
 
 @Component({
   selector: 'app-add-recipe',
@@ -17,7 +19,10 @@ export class AddRecipeComponent implements OnInit {
   titleAlert: string = 'This field is required';
   post: any = '';
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(
+    private formBuilder: FormBuilder,
+    private recipesProvider: RecipesProvider
+  ) {}
 
   ngOnInit() {
     this.createForm();
@@ -70,6 +75,16 @@ export class AddRecipeComponent implements OnInit {
   // }
 
   onSubmit(post: any) {
+    const newRecipe = {
+      name: post.name,
+      minutesToCook: post.minutesToCook,
+      minutesToPrep: post.minutesToPrep,
+      numberOfServings: post.numberOfServings,
+      description: post.description,
+    } as Recipe;
+
+    this.recipesProvider.createRecipe(newRecipe);
+
     this.post = post;
   }
 }

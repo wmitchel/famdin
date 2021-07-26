@@ -1,8 +1,6 @@
 <div class="card-list">
-  <ng-template [ngIf]="recipes">
-    <app-recipe-card
-      *ngFor="let recipe of recipes"
-      [recipe]="recipe"
-    ></app-recipe-card>
-  </ng-template>
+  <app-recipe-card
+    *ngFor="let recipe of recipes | async"
+    [recipe]="recipe"
+  ></app-recipe-card>
 </div>

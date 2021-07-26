@@ -15,6 +15,8 @@ import {
   RecipeDetailComponent,
   AddRecipeComponent,
 } from './recipes';
+import { RecipesProvider } from './services/recipes.provider';
+import { RecipesService } from './services/recipes.service';
 
 @NgModule({
   declarations: [
@@ -32,7 +34,7 @@ import {
     ReactiveFormsModule,
     TextFieldModule,
   ],
-  providers: [],
+  providers: [{ provide: RecipesProvider, useClass: RecipesService }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

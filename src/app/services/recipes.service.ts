@@ -1,22 +1,24 @@
-import * as Recipes from '../mocks/Recipes.json';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Recipe } from '../models';
 import { RecipesProvider } from './recipes.provider';
 
 export class RecipesService extends RecipesProvider {
-  recipeCache: Recipe[] | null = null;
+  recipeCache: Recipe[];
+  recipeObservable: BehaviorSubject<Recipe[]>;
+
   constructor() {
     super();
+    this.recipeCache = [];
+    this.recipeObservable = new BehaviorSubject<Recipe[]>(this.recipeCache);
   }
 
-  getAllRecipes(): Recipe[] {
-    if (!this.recipeCache) {
-      this.recipeCache = Object.values(Recipes) as Recipe[];
-    }
-    return this.recipeCache;
+  getAllRecipes(): Observable<Recipe[]> {
+    return this.recipeObservable;
   }
 
   createRecipe(recipe: Recipe): void {
-    throw new Error('Method not implemented.');
+    this.recipeCache.push(recipe);
+    this.recipeObservable.next(this.recipeCache);
   }
 
   deleteRecipe(recipeId: string): void {
