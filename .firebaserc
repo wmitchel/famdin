@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "fam-din": {
+      "hosting": {
+        "famdin": [
+          "fam-din"
+        ]
+      }
+    }
+  }
+}

@@ -1,24 +1,30 @@
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
+import {
+  AngularFirestore,
+  AngularFirestoreCollection,
+} from '@angular/fire/firestore';
+
 import { Recipe } from '../models';
 import { RecipesProvider } from './recipes.provider';
+import { Injectable } from '@angular/core';
 
+@Injectable()
 export class RecipesService extends RecipesProvider {
-  recipeCache: Recipe[];
-  recipeObservable: BehaviorSubject<Recipe[]>;
+  private recipesCollection: AngularFirestoreCollection<Recipe>;
+  recipes: Observable<Recipe[]>;
 
-  constructor() {
+  constructor(firestore: AngularFirestore) {
     super();
-    this.recipeCache = [];
-    this.recipeObservable = new BehaviorSubject<Recipe[]>(this.recipeCache);
+    this.recipesCollection = firestore.collection<Recipe>('recipes');
+    this.recipes = this.recipesCollection.valueChanges();
   }
 
   getAllRecipes(): Observable<Recipe[]> {
-    return this.recipeObservable;
+    return this.recipes;
   }
 
   createRecipe(recipe: Recipe): void {
-    this.recipeCache.push(recipe);
-    this.recipeObservable.next(this.recipeCache);
+    this.recipesCollection.add(recipe);
   }
 
   deleteRecipe(recipeId: string): void {
